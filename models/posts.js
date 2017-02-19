@@ -24,16 +24,11 @@ module.exports = {
         return Post.create(post).exec();
     },
 
-    // 按创建时间降序获取所有用户文章或者某个特定用户的所有文章
-    getPosts: function getPosts(author) {
-        var query = {};
-        if (author) {
-            query.author = author;
-        }
+    // 通过文章 id 获取一篇文章
+    getPostById: function getPostById(postId) {
         return Post
-            .find(query)
+            .findOne({ _id: postId })
             .populate({ path: 'author', model: 'User' })
-            .sort({ _id: -1 })
             .addCreatedAt()
             .contentToHtml()
             .exec();
